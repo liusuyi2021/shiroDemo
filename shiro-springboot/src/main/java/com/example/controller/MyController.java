@@ -20,30 +20,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MyController {
 
-    @RequestMapping({"/","/index"})
-    public String index(Model model)
-    {
-        model.addAttribute("msg","hello,shiro");
+    @RequestMapping({"/", "/index"})
+    public String index(Model model) {
+        model.addAttribute("msg", "hello,shiro");
         return "index";
     }
+
     @RequestMapping("/user/add")
-    public String add()
-    {
+    public String add() {
         return "user/add";
     }
+
     @RequestMapping("/user/update")
-    public String update()
-    {
+    public String update() {
         return "user/update";
     }
+
     @RequestMapping("/toLogin")
-    public String toLogin()
-    {
+    public String toLogin() {
         return "login";
     }
+
     @RequestMapping("/login")
-    public String login(String username, String password,Model model)
-    {
+    public String login(String username, String password, Model model) {
         //获取当前的用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户的的登录数据
@@ -51,25 +50,26 @@ public class MyController {
         //执行登录方法
         try {
             subject.login(token);
-            model.addAttribute("msg","登陆成功");
+            model.addAttribute("msg", "登陆成功");
             return "index";
         } catch (UnknownAccountException e) {
-            model.addAttribute("msg","用户名错误");
+            model.addAttribute("msg", "用户名错误");
             return "login";
-        }catch (IncorrectCredentialsException e) {
-            model.addAttribute("msg","密码错误");
+        } catch (IncorrectCredentialsException e) {
+            model.addAttribute("msg", "密码错误");
             return "login";
         }
 
     }
+
     @RequestMapping("/unAuthor")
-    public @ResponseBody String unAuthor()
-    {
+    public @ResponseBody
+    String unAuthor() {
         return "未授权add";
     }
+
     @RequestMapping("/logout")
-    public  String logout()
-    {
+    public String logout() {
         //获取当前的用户
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {

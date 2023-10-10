@@ -25,47 +25,44 @@ import javax.annotation.Resource;
  * @Author: 刘苏义
  * @Date: 2023年10月10日11:57:18
  **/
-public class UserRealm extends AuthorizingRealm
-{
+public class UserRealm extends AuthorizingRealm {
     @Resource
     SysUserService sysUserService;
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("执行了==》授权");
-        SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         //拿到当前登录的对象
-        Subject subject=SecurityUtils.getSubject();
-        SysUser sysUser = (SysUser)subject.getPrincipal();
-        simpleAuthorizationInfo.addStringPermission(sysUser.getPerm());
+        Subject subject = SecurityUtils.getSubject();
+        SysUser sysUser = (SysUser) subject.getPrincipal();
+        simpleAuthorizationInfo.addStringPermission(sysUser.getPerm());//添加字符串权限
 
         return simpleAuthorizationInfo;
     }
+
     //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("执行了==》认证");
         UsernamePasswordToken userToken = (UsernamePasswordToken) authenticationToken;
         //用户名密码 数据库中取
-      //  Wrapper<SysUser> queryWrapper=new QueryWrapper<>(new SysUser().setUsername(userToken.getUsername()));
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("id","username","password","salt","perm");
-        queryWrapper.eq("username",userToken.getUsername());
+        Wrapper<SysUser> queryWrapper=new QueryWrapper<>(new SysUser().setUsername(userToken.getUsername()));
         SysUser user = sysUserService.getOne(queryWrapper);
-        if(user==null)
-        {
+        if (user == null) {
             return null;
         }
-        if(!user.getUsername().equals(userToken.getUsername()))
-        {
+        //用户名不匹配返回null
+        if (!user.getUsername().equals(userToken.getUsername())) {
             return null;
         }
-        Subject subject=SecurityUtils.getSubject();
+        Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-        session.setAttribute("userLogin",user);
+        session.setAttribute("userLogin", user);
         //密码验证
-        String Salt= user.getSalt();
-        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(Salt),"");
-       // return new DefaultPasswordService("",user.getPassword(),"");
+        String Salt = user.getSalt();
+        return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(Salt), "");
+        // return new DefaultPasswordService("",user.getPassword(),"");
     }
 }

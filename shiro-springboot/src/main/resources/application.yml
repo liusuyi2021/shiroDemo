@@ -1,7 +1,7 @@
 spring:
   datasource:
     druid: # ??multi-datasource1 ????????
-      url: jdbc:postgresql://localhost:5432/postgres
+      url: jdbc:postgresql://192.168.1.55:5432/postgres
       username: postgres
       password: postgres
       driver-class-name: org.postgresql.Driver

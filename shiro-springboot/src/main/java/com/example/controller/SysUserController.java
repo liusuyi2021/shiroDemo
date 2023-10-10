@@ -10,8 +10,7 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,7 +28,7 @@ public class SysUserController {
     @Resource
     SysUserService sysUserService;
 
-    @RequestMapping("/addUser")
+    @PostMapping("/add")
     public String addUser(SysUser sysUser) {
         //盐
         String Salt = new SecureRandomNumberGenerator().nextBytes().toHex();
@@ -41,13 +40,13 @@ public class SysUserController {
         boolean save = sysUserService.save(sysUser);
         return "插入成功";
     }
-    @RequestMapping("/getUserInfo")
+    @GetMapping("/getUserInfo")
     public String getUserInfo(Model model) {
         Subject subject = SecurityUtils.getSubject();
         model.addAttribute("user", (SysUser) subject.getPrincipal());
         return "";
     }
-    @RequestMapping("/updateUser")
+    @PutMapping("/update")
     public String updateUser(SysUser sysUser, Model model) {
         //盐
         String Salt = new SecureRandomNumberGenerator().nextBytes().toHex();
@@ -60,7 +59,7 @@ public class SysUserController {
         return "更新成功";
     }
 
-    @RequestMapping("/getUserDetail")
+    @GetMapping("/getUserDetail")
     public SysUser getUserDetail(SysUser sysUser) {
         Wrapper<SysUser> queryWrapper=new QueryWrapper<>(sysUser);
         return sysUserService.getOne(queryWrapper);
