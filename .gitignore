@@ -1,0 +1,3 @@
+# Project exclude paths
+/hello-shiro/target/
+/shiro-springboot/target/
