@@ -5,6 +5,29 @@
     <title>Title</title>
 </head>
 <body>
-<h1>update</h1>
+<h1>修改用户</h1>
+<form th:action="@{/sysUser/updateUser}" th:method="post">
+    <fieldset>
+        <legend>用户信息</legend>
+        <p>
+            <label for="username">用户:</label>
+            <input type="text" id="username" name="username" value="${user.username}">
+        </p>
+        <p>
+            <label for="password">密码:</label>
+            <input type="text" id="password" name="password" value="${user.password}">
+        </p>
+        <p>
+            <label for="nickName">姓名:</label>
+            <input type="text" id="nickName" name="nickName" value="${user.nickName}">
+        </p>
+        <p>
+            <label for="perm">权限:</label>
+            <input type="text" id="perm" name="perm" value="${user.perm}">
+        </p>
+    </fieldset>
+    <button type="submit">提交</button>
+</form>
+
 </body>
 </html>

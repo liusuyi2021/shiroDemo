@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description:
+ * @Description: shiro配置类
  * @ClassName: ShiroConfig
  * @Author: 刘苏义
  * @Date: 2023年10月10日11:55:45
@@ -76,6 +76,7 @@ public class ShiroConfig {
         return hashedCredentialsMatcher;
     }
 
+    //为了在thymeleaf里使用shiro的标签bean
     @Bean
     public ShiroDialect getShiroDialect()
     {

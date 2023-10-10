@@ -10,14 +10,14 @@
 <p th:text="${msg}"/>
 <div>
     <a th:if="${session.userLogin==null}" th:href="@{/toLogin}">登录</a>
-    <a th:if="${session.userLogin!=null}" th:href="@{/logout}">退出登录</a>
+    <a th:if="${session.userLogin!=null}" th:href="@{/logout}">退出</a>
 </div>
 <br/>
 <div shiro:hasPermission="user:add">
-    <a th:href="@{/user/add}">add</a>
+    <a th:href="@{/user/add}">添加用户</a>
 </div>
 <div shiro:hasPermission="user:update">
-    <a th:href="@{/user/update}">update</a>
+    <a th:href="@{/user/update}">修改用户</a>
 </div>
 </body>
 </html>
